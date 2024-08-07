@@ -1,0 +1,27 @@
+.el-tree {
+    .el-tree-node {
+        .el-tree-node__content {
+            height: 36px;
+            user-select: none;
+        }
+    }
+}
+
+.tree-data {
+    height: 36px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+
+    .tree-active {
+        display: none;
+        flex-direction: row;
+    }
+
+    &:hover {
+        .tree-active {
+            display: flex;
+        }
+    }
+}

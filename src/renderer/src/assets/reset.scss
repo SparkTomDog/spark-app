@@ -1,0 +1,47 @@
+html, body, #app {
+    width: 100%;
+    height: 100%;
+    padding: 0;
+    margin: 0;
+    overflow: hidden;
+}
+
+#Container {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+    overflow: hidden;
+    border-top: $def_border;
+
+    #ContainerAside {
+        box-sizing: border-box;
+        padding: 10px;
+        border-right: $def_border;
+
+        #ButtonItem {
+            height: 36px;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: center;
+        }
+    }
+
+    #ContainerMain {
+        flex: 1;
+        overflow: hidden;
+    }
+}
+
+.icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: #3f3f3f;
+
+    &:hover {
+        opacity: 0.5;
+    }
+}
