@@ -6,7 +6,7 @@ import windowStateKeeper from "electron-window-state";
 import "../common/database/databaseInit"
 import "../common/dataIPC"
 
-let mainWindow: BrowserWindow
+let mainWindow: BrowserWindow | null
 
 function createWindow(): void {
     const mainWindowState = windowStateKeeper({
@@ -30,7 +30,7 @@ function createWindow(): void {
     });
 
     mainWindow.on("ready-to-show", () => {
-        mainWindow.show();
+        mainWindow?.show();
     });
 
     mainWindow.webContents.setWindowOpenHandler((details) => {
@@ -68,5 +68,6 @@ app.whenReady().then(() => {
 app.on("window-all-closed", () => {
     if (process.platform !== "darwin") {
         app.quit();
+        mainWindow = null
     }
 });

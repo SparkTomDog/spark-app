@@ -1,8 +1,6 @@
 import { ipcMain } from "electron";
 import { dataModel } from "./models/data";
 import { dataResponse, getDate } from "./functions";
-import { sequelize } from "./database";
-import { QueryTypes } from "sequelize";
 
 /**
  * 创建data
@@ -22,13 +20,11 @@ ipcMain.handle("create-data", async (_e: Electron.IpcMainInvokeEvent, attr: stri
  */
 ipcMain.handle("find-data", async (_e: Electron.IpcMainInvokeEvent) => {
     try {
-        const res = await sequelize.query(
-            'SELECT * FROM data WHERE deleteAt = :status',
-            {
-                replacements: { status: 'null' },
-                type: QueryTypes.SELECT
+        const res = await dataModel.findAll({
+            where: {
+                deleteAt: "null"
             }
-        );
+        })
         return dataResponse("获取成功", res, 200)
     } catch (error) {
         return dataResponse("获取失败", error, 400)
@@ -40,13 +36,12 @@ ipcMain.handle("find-data", async (_e: Electron.IpcMainInvokeEvent) => {
  */
 ipcMain.handle("find-data-folder", async (_e: Electron.IpcMainInvokeEvent) => {
     try {
-        const res = await sequelize.query(
-            'SELECT * FROM data WHERE deleteAt = :status AND type = :type',
-            {
-                replacements: { status: 'null', type: "folder" },
-                type: QueryTypes.SELECT
+        const res = await dataModel.findAll({
+            where: {
+                deleteAt: "null",
+                type: "folder"
             }
-        );
+        })
         
         return dataResponse("获取成功", res, 200)
     } catch (error) {
@@ -86,7 +81,9 @@ ipcMain.handle("find-data-one", async (_e: Electron.IpcMainInvokeEvent, attr: st
 ipcMain.handle("update-data", async (_e: Electron.IpcMainInvokeEvent, attr: string) => {
     try {
         const data = JSON.parse(attr)
-        if (data.parent) delete (data.parent)
+        console.log(data)
+        if(data.type === "folder") delete(data.content)
+        if (data.parent) delete(data.parent)
         const res = await dataModel.update({ ...data }, {
             where: {
                 id: data.id

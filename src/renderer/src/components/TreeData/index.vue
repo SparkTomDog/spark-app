@@ -51,11 +51,13 @@ import { ElTree } from 'element-plus'
 import { useData } from '@r/stores/data.store';
 import { useApp } from '@r/stores/app.store';
 import { getDate, getUUID } from '@c/functions'
+import { useTab } from '@r/stores/tab.store';
 
 const filterText = ref('')
 const treeRef = ref<InstanceType<typeof ElTree>>()
 const dataStore = useData()
 const appStore = useApp()
+const tabStore = useTab()
 const isEdit = ref<boolean>(false)
 
 const defaultProps = {
@@ -75,7 +77,7 @@ const filterNode = (value: string, data: any) => {
 
 const clickTreeNode = (data: any) => {
     if (data.type === "file") {
-        console.log(data)
+        tabStore.setTabs(data)
     }
 }
 
